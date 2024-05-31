@@ -40,7 +40,7 @@ export class HomeComponent {
 
   injector = inject(Injector);
 
-  showClearBtn: boolean = true;
+  showClearBtn = signal<boolean>(true);
 
   ngOnInit() {
     const storage = localStorage.getItem('tasks');
@@ -54,14 +54,12 @@ export class HomeComponent {
   trackTasks() {
     effect(
       () => {
-        const tasks = this.tasks();
-        console.log(tasks);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        const completedTasks = this.tasks().filter(task => task.completed);
+        localStorage.setItem('tasks', JSON.stringify(this.tasks()));
 
-        if (tasks.filter((task) => task.completed).length === 0)
-          this.showClearBtn = false;
+        this.showClearBtn.set(completedTasks.length > 0);
       },
-      { injector: this.injector }
+      { injector: this.injector, allowSignalWrites: true }
     );
   }
 

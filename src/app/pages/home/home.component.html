@@ -78,7 +78,7 @@
           </li>
         </ul>
         <!-- Hidden if no completed items are left ↓ -->
-        <button *ngIf="showClearBtn" (click)="changeFilter('pending')" class="clear-completed">Clear completed</button>
+        <button *ngIf="showClearBtn()" (click)="changeFilter('pending')" class="clear-completed">Clear completed</button>
       </footer>
     </div>
   </section>
